@@ -39,7 +39,6 @@ namespace Krankenhaus.Threads
 
                 DB.SaveChanges();
                 EventsManager.OnSendpatientsToSanatorium(sickestpatientsToSanatorium);
-                //SendMethod.SendPatientToSanatorium(sickestpatientsToSanatorium);
               
 
                

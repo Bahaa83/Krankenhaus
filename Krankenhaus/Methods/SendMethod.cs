@@ -30,20 +30,16 @@ namespace Krankenhaus.Methods
                     {
                         foreach (var P in patients)
                         {
-
                             Console.WriteLine("Flyttade patient Namn: {0}  {1} till IVA från Kön  Symptomnivå : {2} personnummer : {3} Ålder : {4}", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
                             ST.WriteLine("Flyttade patient Namn: {0}  {1} till IVA från Kön  Symptomnivå : {2} personnummer : {3}  Ålder : {4}", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
-
-                            //Console.WriteLine(P.FirstName + " " + P.LastName + "  " + P.Personnnmmer + " " + P.Symptomnivå + " " + P.Age);
                             Thread.Sleep(500);
                             newpatient = new Patient() { FirstName = P.FirstName, LastName = P.LastName, Personnnmmer = P.Personnnmmer, Symptomnivå = P.Symptomnivå, Age = P.Age };
                             iva.Patients.Add(newpatient);
-                            DB.Ivas.Add(iva);
                             Console.Clear();
                         }
                     }
-
-                DB.SaveChanges();
+                    DB.Ivas.Add(iva);
+                    DB.SaveChanges();
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
@@ -71,13 +67,15 @@ namespace Krankenhaus.Methods
                             Thread.Sleep(500);
                             newpatient = new Patient() { FirstName = P.FirstName, LastName = P.LastName, Personnnmmer = P.Personnnmmer, Symptomnivå = P.Symptomnivå, Age = P.Age };
                             sanatorium.Patients.Add(newpatient);
-                            DB.Sanatoria.Add(sanatorium);
+                          
                             Console.Clear();
                         }
+                     
                     }
 
-                        DB.SaveChanges();
-                        Console.ForegroundColor = ConsoleColor.White;
+                    DB.Sanatoria.Add(sanatorium);
+                    DB.SaveChanges();
+                    Console.ForegroundColor = ConsoleColor.White;
                     
                 }
             }

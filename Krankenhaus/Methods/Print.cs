@@ -50,13 +50,13 @@ namespace Krankenhaus.PrintMethod
                     {
                         Console.WriteLine(" patient Namn: {0}  {1}  Symptomnivå : {2} personnummer : {3} Ålder : {4} placerade i kö", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
                         st.WriteLine(" patient Namn: {0}  {1}  Symptomnivå : {2} personnummer : {3}  Ålder : {4} placerade i kö", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
+                        DB.Patients.Add(P);
                         queue.Patients.Add(P);
                         Thread.Sleep(500);
-                        DB.Queues.Add(queue);
                         Console.Clear();
                     }
                 }
-                //DB.Queues.Add(queue);
+                DB.Queues.Add(queue);
                 DB.SaveChanges();
             }
 

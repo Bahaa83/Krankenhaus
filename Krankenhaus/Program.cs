@@ -14,10 +14,10 @@ namespace Krankenhaus
     {
         static void Main(string[] args)
         {
-            EventsManager.eventRegisterPatients += Print.Registerpatients;
-            EventsManager.eventSendpatientsToqueue += Print.SenpatientsToqueue;
-            EventsManager.eventSendPatientsInIVA += SendMethod.SendPatientToIva;
-            EventsManager.eventSendpatientsToSanatorium += SendMethod.SendPatientToSanatorium;
+            //EventsManager.eventRegisterPatients += Print.Registerpatients;
+            //EventsManager.eventSendpatientsToqueue += Print.SenpatientsToqueue;
+            //EventsManager.eventSendPatientsInIVA += SendMethod.SendPatientToIva;
+            //EventsManager.eventSendpatientsToSanatorium += SendMethod.SendPatientToSanatorium;
 
 
 

@@ -39,8 +39,7 @@ namespace Krankenhaus.Threads
                     }
                     EventsManager.OnRegisterPatients(patients);
                     EventsManager.OnSendpatientsinqueue(patients);
-                    //Print.Registerpatients(patients);
-                    //Print.Putpatientsinqueue(patients);
+                   
 
                 }
             }

@@ -17,6 +17,8 @@ namespace Krankenhaus
             Tråd1.Join();
             Thread Tråd2 = new Thread(Thread2.SendpatientsToIvaAndSanatorium);
             Tråd2.Start();
+
+
             Console.ReadKey();
         }
     }
