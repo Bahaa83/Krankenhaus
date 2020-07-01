@@ -24,7 +24,7 @@ namespace RandomPersonalData
         }
         public static string RandomLastName(Random random)
         {
-            random = new Random();
+         random = new Random();
 
             var Lnames = new string[]
             {"Andersson","Johansson","Karlsson","Nilsson","Eriksson","Larsson","Olsson","Persson","Svensson",
@@ -69,8 +69,17 @@ namespace RandomPersonalData
         public  static int Randomsymptomlevel(Random random)
         {
             random = new Random();
-            int symptomlevel = random.Next(1, 11);
+            int symptomlevel = random.Next(1, 10);
             return symptomlevel;
+        }
+        public static int GetAge(string  personnummer)
+        {
+            string birthyear = personnummer.Substring(0, 4);
+            int year = Convert.ToInt32(birthyear);
+            int Age = 2020 - year;
+
+
+            return Age;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Krankenhaus.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Krankenhaus.Data
     {
         public DbSet<Patient> Patients  { get; set; }
         public DbSet<Queue> Queues { get; set; }
-
+        public DbSet<IVA>  Ivas { get; set; }
+        public DbSet<Sanatorium>  Sanatoria { get; set; }
 
     }
 }

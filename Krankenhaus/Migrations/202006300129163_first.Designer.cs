@@ -13,7 +13,7 @@ namespace Krankenhaus.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202006242123309_first"; }
+            get { return "202006300129163_first"; }
         }
         
         string IMigrationMetadata.Source

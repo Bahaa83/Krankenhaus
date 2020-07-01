@@ -1,4 +1,6 @@
-﻿using Krankenhaus.Threads;
+﻿using Krankenhaus.Methods;
+using Krankenhaus.PrintMethod;
+using Krankenhaus.Threads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,14 @@ namespace Krankenhaus
     {
         static void Main(string[] args)
         {
-          Thread Tråd1= new Thread(Thread1.GeneratePatients);
-            Tråd1.Start();
-            Console.ReadKey();
+            EventsManager.eventRegisterPatients += Print.Registerpatients;
+            EventsManager.eventSendpatientsToqueue += Print.SenpatientsToqueue;
+            EventsManager.eventSendPatientsInIVA += SendMethod.SendPatientToIva;
+            EventsManager.eventSendpatientsToSanatorium += SendMethod.SendPatientToSanatorium;
+
+
+
+            Run.run();
         }
     }
 }

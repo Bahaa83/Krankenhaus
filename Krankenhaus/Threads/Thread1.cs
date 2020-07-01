@@ -1,4 +1,6 @@
 ﻿using Krankenhaus.Data;
+using Krankenhaus.Methods;
+using Krankenhaus.PrintMethod;
 using RandomPersonalData;
 using System;
 using System.Collections.Generic;
@@ -10,59 +12,41 @@ using System.Threading.Tasks;
 
 namespace Krankenhaus.Threads
 {
-  public  static class Thread1
+  public static class Thread1
     {
+       
         public static void GeneratePatients()
         {
-            using(var DB = new Context() )
+            lock ("")
             {
-                Queue PatientInqueue = new Queue();
-                PatientInqueue.Patients = new List<Patient>();
-                Random random = new Random();
-                for (int i = 1; i <= 30; i++)
+                using (var DB = new Context())
                 {
-                    Patient newpatient = new Patient()
+                    Random random = new Random();
+                    var patients = new List<Patient>();
+                    for (int i = 1; i <= 30; i++)
                     {
-                        FirstName = RandomGenerator.RandomFirstName(random),
-                        LastName = RandomGenerator.RandomLastName(random),
-                        Personnnmmer = RandomGenerator.RandomSSN(random),
-                        Symptomnivå = RandomGenerator.Randomsymptomlevel(random)
-                    };
-                    PatientInqueue.Patients.Add(newpatient);
-                    DB.Queues.Add(PatientInqueue);
-                }
-             
-                DB.SaveChanges();
-                var patients = PatientInqueue.Patients.ToList();
-                Welcome(patients);
 
+                        Patient newpatient = new Patient();
+
+                        newpatient.FirstName = RandomGenerator.RandomFirstName(random);
+                        newpatient.LastName = RandomGenerator.RandomLastName(random);
+                        newpatient.Personnnmmer = RandomGenerator.RandomSSN(random);
+                        newpatient.Symptomnivå = RandomGenerator.Randomsymptomlevel(random);
+                        newpatient.Age = RandomGenerator.GetAge(newpatient.Personnnmmer);
+                        Thread.Sleep(500);
+                        patients.Add( newpatient);
+                       
+                    }
+                    EventsManager.OnRegisterPatients(patients);
+                    EventsManager.OnSendpatientsinqueue(patients);
+                    //Print.Registerpatients(patients);
+                    //Print.Putpatientsinqueue(patients);
+
+                }
             }
+
            
         }
-        static void Welcome(List<Patient> patients)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" Vi placerar alla patienterna i kö !");
-            Thread.Sleep(500);
-            Console.WriteLine(" Vi jobbar så bäst som vi kan");
-            Thread.Sleep(500);
-            Console.Write(".");
-            Thread.Sleep(500);
-            Console.Write(".");
-            Thread.Sleep(500);
-            Console.Write(".");
-            Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.White;
-            foreach (var P in patients)
-            {
-                Console.WriteLine(P.FirstName + " " + P.LastName + "  " + P.Personnnmmer + " " + P.Symptomnivå);
-                Thread.Sleep(500);
-            }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Alla Patienter har  placerat i kö  !");
-            Console.ForegroundColor = ConsoleColor.White;
-
-        }
+       
     }
 }
