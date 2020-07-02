@@ -30,7 +30,7 @@ namespace Krankenhaus.PrintMethod
                 }
             }
         }
-       public static void SenpatientsToqueue(List<Patient> patients)
+       public static void SendpatientsToqueue(List<Patient> patients)
         {
             Console.Clear();
             queue.Patients = new List<Patient>();
@@ -46,6 +46,7 @@ namespace Krankenhaus.PrintMethod
             {
                 using (StreamWriter st = File.AppendText("Krankenhaus.txt"))
                 {
+                    Thread.Sleep(1000);
                     foreach (var P in patientinqueue)
                     {
                         Console.WriteLine(" patient Namn: {0}  {1}  Symptomnivå : {2} personnummer : {3} Ålder : {4} placerade i kö", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
@@ -62,6 +63,7 @@ namespace Krankenhaus.PrintMethod
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Alla Patienter har  placerat i kö  !");
+            Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.White;
 
         }

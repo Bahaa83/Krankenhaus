@@ -25,15 +25,13 @@ namespace Krankenhaus.Threads
                     var patients = new List<Patient>();
                     for (int i = 1; i <= 30; i++)
                     {
-
+                        Thread.Sleep(500);
                         Patient newpatient = new Patient();
-
                         newpatient.FirstName = RandomGenerator.RandomFirstName(random);
                         newpatient.LastName = RandomGenerator.RandomLastName(random);
                         newpatient.Personnnmmer = RandomGenerator.RandomSSN(random);
                         newpatient.Symptomnivå = RandomGenerator.Randomsymptomlevel(random);
                         newpatient.Age = RandomGenerator.GetAge(newpatient.Personnnmmer);
-                        Thread.Sleep(500);
                         patients.Add( newpatient);
                        
                     }

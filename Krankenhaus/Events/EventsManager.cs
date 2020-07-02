@@ -12,11 +12,13 @@ namespace Krankenhaus.Methods
         public delegate void SendpatientsToqueue(List<Patient> patients);
         public delegate void SendPatientsInIVA(List<Patient> patients);
         public delegate void SendpatientsToSanatorium(List<Patient> patients);
-       
-        public  static event RegisterPatients eventRegisterPatients;
+        public delegate void UpdateSymptomLevel(int Point, Patient patient);
+
+        public static event RegisterPatients eventRegisterPatients;
         public static event SendpatientsToqueue eventSendpatientsToqueue;
         public static event SendPatientsInIVA eventSendPatientsInIVA;
         public static event SendpatientsToSanatorium eventSendpatientsToSanatorium;
+        public static event UpdateSymptomLevel eventUpdateSymptomLevel;
 
         public static void OnRegisterPatients(List<Patient> patients)
         {
@@ -41,6 +43,11 @@ namespace Krankenhaus.Methods
                 eventSendpatientsToSanatorium.Invoke(patients);
 
         }
+        public static void OnUpdateSymptomLevel(int Point,Patient patient)
+        {
+            if (patient != null)
+                eventUpdateSymptomLevel.Invoke( Point, patient);
 
+        }
     }
 }

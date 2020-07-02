@@ -10,6 +10,9 @@ namespace Krankenhaus.Data
 {
    public class Context : DbContext
     {
+        public Context() : base(@" Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = Kranken_Database; Integrated Security = True;")
+        {
+        }
         public DbSet<Patient> Patients  { get; set; }
         public DbSet<Queue> Queues { get; set; }
         public DbSet<IVA>  Ivas { get; set; }

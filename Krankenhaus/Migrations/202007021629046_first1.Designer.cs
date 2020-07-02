@@ -7,13 +7,13 @@ namespace Krankenhaus.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class first : IMigrationMetadata
+    public sealed partial class first1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(first));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(first1));
         
         string IMigrationMetadata.Id
         {
-            get { return "202006300129163_first"; }
+            get { return "202007021629046_first1"; }
         }
         
         string IMigrationMetadata.Source

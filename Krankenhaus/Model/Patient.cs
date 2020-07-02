@@ -16,7 +16,7 @@ namespace Krankenhaus
         public string LastName { get; set; }
         public string Personnnmmer { get; set; }
         public int Age { get; set; }
-        [Range (1,10)]
+       
         public int Symptomnivå { get; set; }
         public virtual Queue queue { get; set; }
         public virtual IVA Iva { get; set; }
