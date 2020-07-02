@@ -21,5 +21,7 @@ namespace Krankenhaus
         public virtual Queue queue { get; set; }
         public virtual IVA Iva { get; set; }
         public virtual Sanatorium  Sanatorium { get; set; }
+        public virtual Tillfrisknade Tillfrisknade { get; set; }
+        public virtual Afterlife Afterlife { get; set; }
     }
 }

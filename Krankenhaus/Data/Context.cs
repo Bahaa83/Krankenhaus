@@ -17,6 +17,8 @@ namespace Krankenhaus.Data
         public DbSet<Queue> Queues { get; set; }
         public DbSet<IVA>  Ivas { get; set; }
         public DbSet<Sanatorium>  Sanatoria { get; set; }
+        public DbSet<Tillfrisknade> Tillfrisknades { get; set; }
+        public DbSet<Afterlife> Afterlives { get; set; }
 
     }
 }
