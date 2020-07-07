@@ -2,6 +2,7 @@
 using Krankenhaus.Threads;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,9 +14,10 @@ namespace Krankenhaus
     {
         public static  void DeleteAll()
         {
+            Console.WriteLine("Dont worry ... vi kommer strax  ;)");
             using(var DB= new Context())
             {
-                var patients = DB.Patients.Take(30).ToList();
+                var patients = DB.Patients.ToList();
                 if (patients == null)
                 {
                     run();
@@ -25,6 +27,7 @@ namespace Krankenhaus
                     foreach (var P in patients)
                     {
                         DB.Patients.Remove(P);
+                        
                     }
                     DB.SaveChanges();
                     run();
@@ -37,14 +40,26 @@ namespace Krankenhaus
         }
         public static void run()
         {
-            Thread Tråd1 = new Thread(Thread1.GeneratePatients);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Thread Tråd1 = new Thread(ThreadsManager.RandomGeneratorPatients);
+            Thread Tråd2 = new Thread(ThreadsManager.SendPatientsToTheSections);
+            Thread Tråd3 = new Thread(ThreadsManager.UpdatesThePatientsSymptomLevel);
+            Thread Tråd4 = new Thread(ThreadsManager.SendDismissedPatientsToAfterlifeorRecovery);
             Tråd1.Start();
             Tråd1.Join();
-            Thread Tråd2 = new Thread(Thread2.SendpatientsToIvaAndSanatorium);
+            Thread.Sleep(5000);
             Tråd2.Start();
-            Tråd2.Join();
-            Thread Tråd3 = new Thread(Thread3.UpdatesThePatientsCondition);
+            Thread.Sleep(3000);
             Tråd3.Start();
+            Thread.Sleep(5000);
+            Tråd4.Start();
+            Tråd4.Join();
+            stopwatch.Stop();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Simulering Klar.");
+            Console.WriteLine("Tid för simulering : {0} Millisekunder", stopwatch.ElapsedMilliseconds);
+            Console.ForegroundColor = ConsoleColor.White;
 
             Console.ReadKey();
         }

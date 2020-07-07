@@ -15,11 +15,13 @@ namespace Krankenhaus
         static void Main(string[] args)
         {
             EventsManager.eventRegisterPatients += Print.Registerpatients;
-            EventsManager.eventSendpatientsToqueue += Print.SendpatientsToqueue;
-            EventsManager.eventSendPatientsInIVA += Method.SendPatientToIva;
-            EventsManager.eventSendpatientsToSanatorium += Method.SendPatientToSanatorium;
-            EventsManager.eventUpdateSymptomLevel += Method.UpdateSymptomLevel;
+            EventsManager.eventSendpatientsToqueue += Print.printpatientsToqueue;
+            EventsManager.eventSendPatientsInIVA += Print.SendPatientToIva;
+            EventsManager.eventSendpatientsToSanatorium += Print.SendPatientToSanatorium;
+            EventsManager.eventUpdateSymptomLevel += Print.UpdateSymptomLevel;
+            EventsManager.eventDismissedPatients += Print.DismissedPatients;
             Run.DeleteAll();
+            //Run.run();
             
         }
     }

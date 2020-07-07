@@ -14,5 +14,9 @@ namespace Krankenhaus
         public int ID { get; set; }
         
         public virtual List<Patient> Patients { get; set; }
+        public Queue()
+        {
+            Patients = new List<Patient>();
+        }
     }
 }

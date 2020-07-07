@@ -59,13 +59,9 @@
     <Compile Include="Data\Context.cs" />
     <Compile Include="Events\EventsManager.cs" />
     <Compile Include="Methods\Method.cs" />
-    <Compile Include="Migrations\202007020206415_first.cs" />
-    <Compile Include="Migrations\202007020206415_first.designer.cs">
-      <DependentUpon>202007020206415_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202007021749072_first1.cs" />
-    <Compile Include="Migrations\202007021749072_first1.designer.cs">
-      <DependentUpon>202007021749072_first1.cs</DependentUpon>
+    <Compile Include="Migrations\202007061936393_first.cs" />
+    <Compile Include="Migrations\202007061936393_first.designer.cs">
+      <DependentUpon>202007061936393_first.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Afterlife.cs" />
@@ -81,17 +77,15 @@
     <Compile Include="Threads\Thread1.cs" />
     <Compile Include="Threads\Thread2.cs" />
     <Compile Include="Threads\Thread3.cs" />
+    <Compile Include="Threads\ThreadsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202007020206415_first.resx">
-      <DependentUpon>202007020206415_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202007021749072_first1.resx">
-      <DependentUpon>202007021749072_first1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202007061936393_first.resx">
+      <DependentUpon>202007061936393_first.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,5 +12,9 @@ namespace Krankenhaus.Model
         [Key]
         public int ID { get; set; }
         public virtual List<Patient>  Patients { get; set; }
+        public Afterlife()
+        {
+            Patients = new List<Patient>();
+        }
     }
 }

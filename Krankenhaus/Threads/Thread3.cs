@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Krankenhaus.Threads
@@ -12,43 +13,56 @@ namespace Krankenhaus.Threads
     public static class Thread3
     {
 
+
         public static void UpdatesThePatientsCondition()
         {
-            
+           
             using (var DB = new Context())
             {
                 int point = 0;
-                var patientsinqueue = DB.Queues.SingleOrDefault(P=>P.Patients.Count!=0);     
-                DB.Entry(patientsinqueue).Collection(p => p.Patients).Load();
-                foreach (var patient in patientsinqueue.Patients)
+                var patientsinqueue = DB.Queues.SingleOrDefault(P=>P.Patients.Count!=0);
+                if (patientsinqueue != null)
                 {
-                    point = Method.Levelchanging(1);
-                    patient.Symptomnivå += point;
-                    DB.SaveChanges();
+                    DB.Entry(patientsinqueue).Collection(p => p.Patients).Load();
+                    foreach (var patient in patientsinqueue.Patients)
+                    {
+                        Thread.Sleep(150);
+                        point = Method.Levelchanging(1);
+                        patient.Symptomnivå += point;
 
-                    EventsManager.OnUpdateSymptomLevel(point, patient);
+                        EventsManager.OnUpdateSymptomLevel(point, patient);
+                    }
                 }
+               
                 var patientinsanatorium = DB.Sanatoria.SingleOrDefault(P => P.Patients.Count != 0);
-                DB.Entry(patientinsanatorium).Collection(P => P.Patients).Load();
-                foreach (var patient in patientinsanatorium.Patients)
+                if (patientinsanatorium != null)
                 {
-                    point=Method.Levelchanging(2);
-                    patient.Symptomnivå += point;
-                    DB.SaveChanges();
-                    EventsManager.OnUpdateSymptomLevel(point, patient);
+                    DB.Entry(patientinsanatorium).Collection(P => P.Patients).Load();
+                    foreach (var patient in patientinsanatorium.Patients)
+                    {
+                        Thread.Sleep(150);
+                        point = Method.Levelchanging(2);
+                        patient.Symptomnivå += point;
+                        EventsManager.OnUpdateSymptomLevel(point, patient);
+                    }
                 }
-
+                
                 var patientiniva = DB.Ivas.SingleOrDefault(P => P.Patients.Count != 0);
-                DB.Entry(patientiniva).Collection(P => P.Patients).Load();
-                foreach (var patient in patientiniva.Patients)
+                if (patientiniva != null)
                 {
-                    point = Method.Levelchanging(3);
-                    patient.Symptomnivå += point;
-                    DB.SaveChanges();
-                    EventsManager.OnUpdateSymptomLevel(point, patient);
+                    DB.Entry(patientiniva).Collection(P => P.Patients).Load();
+                    foreach (var patient in patientiniva.Patients)
+                    {
+                        Thread.Sleep(150);
+                        point = Method.Levelchanging(3);
+                        patient.Symptomnivå += point;
 
+                        EventsManager.OnUpdateSymptomLevel(point, patient);
 
+                    }
                 }
+               
+                DB.SaveChanges();
             }
         }
     }

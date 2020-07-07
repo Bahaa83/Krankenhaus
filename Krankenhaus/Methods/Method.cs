@@ -12,76 +12,10 @@ namespace Krankenhaus.Methods
 {
   public static  class Method
     {
-        public static IVA iva = new IVA();
-        public static Sanatorium sanatorium = new Sanatorium();
-        public static void SendPatientToIva(List<Patient> patients)
-        {
-            lock ("")
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Följande patienter överförs till intensivvården");
-                Thread.Sleep(1000);
-                iva.Patients = new List<Patient>();
-                Patient newpatient;
-                using (var DB = new Context())
-                {
-                    using (StreamWriter ST = File.AppendText("Krankenhaus.txt"))
-                    {
-                        foreach (var P in patients)
-                        {
-                            Console.WriteLine("Flyttade patient Namn: {0}  {1} till IVA från Kön  Symptomnivå : {2} personnummer : {3} Ålder : {4}", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
-                            ST.WriteLine("Flyttade patient Namn: {0}  {1} till IVA från Kön  Symptomnivå : {2} personnummer : {3}  Ålder : {4}", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
-                            Thread.Sleep(500);
-                            newpatient = new Patient() { FirstName = P.FirstName, LastName = P.LastName, Personnnmmer = P.Personnnmmer, Symptomnivå = P.Symptomnivå, Age = P.Age };
-                            iva.Patients.Add(newpatient);
-                            Console.Clear();
-                        }
-                    }
-                    DB.Ivas.Add(iva);
-                    DB.SaveChanges();
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-            }
-
-        }
-        public static void SendPatientToSanatorium(List<Patient> patients)
-        {
-            lock ("")
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Följande patienter överförs till sanatorium");
-                Thread.Sleep(500);
-                sanatorium.Patients = new List<Patient>();
-                Patient newpatient;
-                using (var DB = new Context())
-                {
-                    using (StreamWriter ST = File.AppendText("Krankenhaus.txt"))
-                    {
-                        foreach (var P in patients)
-                        {
-                            Console.WriteLine("Flyttade patient Namn: {0}  {1} till Sanatorium från Kön  Symptomnivå : {2} personnummer : {3}  Ålder : {4}", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
-                            ST.WriteLine("Flyttade patient Namn: {0}  {1} till Sanatorium från Kön  Symptomnivå : {2} personnummer : {3}  Ålder : {4}", P.FirstName, P.LastName, P.Symptomnivå, P.Personnnmmer, P.Age);
-
-                            Thread.Sleep(500);
-                            newpatient = new Patient() { FirstName = P.FirstName, LastName = P.LastName, Personnnmmer = P.Personnnmmer, Symptomnivå = P.Symptomnivå, Age = P.Age };
-                            sanatorium.Patients.Add(newpatient);
-                          
-                            Console.Clear();
-                        }
-                     
-                    }
-
-                    DB.Sanatoria.Add(sanatorium);
-                    DB.SaveChanges();
-                    Console.ForegroundColor = ConsoleColor.White;
-                    
-                }
-            }
-
-
-        }
+        
+       
+       
+      
         public static int Levelchanging(int table)
         {
             int chance = 0;
@@ -151,40 +85,58 @@ namespace Krankenhaus.Methods
 
             return levelchanging;
         }
-        public static void UpdateSymptomLevel( int Point,Patient patient)
+      
+     
+        public static int FindSickestPatient()
         {
-            Thread.Sleep(500);
-            using (StreamWriter ST = File.AppendText("Krankenhaus.txt"))
+            Patient patient1 = null;
+            Patient patient2 = null;
+
+            using (var DB = new Context())
             {
-                if (Point == -1)
+                var patientInsanatorium = DB.Sanatoria.FirstOrDefault(S => S.Patients.Count > 0);
+                var PatientInqueue = DB.Queues.FirstOrDefault(q => q.Patients.Count > 0);
+
+
+
+                if (patientInsanatorium != null && patientInsanatorium.Patients.Count > 0)
                 {
-                    Console.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har sänks med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-                    ST.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har sänks med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
+                    DB.Entry(patientInsanatorium).Collection(x => x.Patients).Load();
+                    patientInsanatorium.Patients = patientInsanatorium.Patients.OrderByDescending(x => x.Symptomnivå).ThenBy(x => x.Age).ToList();
+                    patient1 = patientInsanatorium.Patients.First();
+                }
+                if (PatientInqueue != null && PatientInqueue.Patients.Count > 0)
+                {
+                    DB.Entry(PatientInqueue).Collection(x => x.Patients).Load();
+                    PatientInqueue.Patients = PatientInqueue.Patients.OrderByDescending(x => x.Symptomnivå).ThenBy(x => x.Age).ToList();
+                    patient2 = PatientInqueue.Patients.First();
+                }
+
+                //Returnerar 0 för sanatorium och 1 för kön.
+
+                if (patient1 != null && patient2 != null)
+                {
+                    if (patient1.Symptomnivå.CompareTo(patient2.Symptomnivå) == 0)//om de är lika så tar vi den yngre
+                    {
+                        if (patient1.Age < patient2.Age) return 0;
+
+                        else
+                        {
+                            return 1;
+                        }
+                    }
+
+                    return patient1.Symptomnivå > patient2.Symptomnivå ? 0 : 1;
 
                 }
-                if (Point == 1)
+                else if (patient1 != null)
                 {
-                    Console.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har höjs med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-                    ST.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har höjs med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-
+                    return 0;
                 }
-                if (Point == 3)
+                else
                 {
-                    Console.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har höjs med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-                    ST.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har höjs med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
+                    return 1;
                 }
-                if (Point == -3)
-                {
-                    Console.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har sänks med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-                    ST.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har sänks med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-                }
-                if (Point == 2)
-                {
-                    Console.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har höjs med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-                    ST.WriteLine("Patienten : {0} {1}  Personnummer : {2} Symptomnivå har höjs med {3} ", patient.FirstName, patient.LastName, patient.Personnnmmer, Point);
-
-                }
-                Thread.Sleep(500);
             }
         }
     }

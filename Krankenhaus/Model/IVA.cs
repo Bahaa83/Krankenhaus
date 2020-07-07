@@ -13,5 +13,9 @@ namespace Krankenhaus.Model
         public int ID { get; set; }
 
         public virtual List<Patient> Patients { get; set; }
+        public IVA()
+        {
+            Patients = new List<Patient>();
+        }
     }
 }
